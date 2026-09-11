@@ -1,7 +1,7 @@
 .PHONY: preview capture check
 
 preview:
-	python3 -m http.server 8000 --bind 127.0.0.1
+	python3 scripts/preview_server.py
 
 capture:
 	./scripts/capture-preview.sh

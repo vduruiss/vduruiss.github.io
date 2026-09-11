@@ -3,12 +3,19 @@
 
 from html.parser import HTMLParser
 from pathlib import Path
+import ast
+import re
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent.parent
 HTML_FILES = sorted(ROOT.glob("*.html"))
 
-EXPECTED_PUBLICATION_TITLES = [
+EXPECTED_PUBLICATION_TITLES_IN_ORDER = [
+    "Symplectic Numerical Integration at the service of Accelerated Optimization and Structure-Preserving Dynamics Learning",
+    "Stable Singularity of the Euler Equations on R<sup>3</sup>",
+    "Stability Framework for the Singularity of the Euler Equations on R<sup>3</sup>",
+    "Equation Recast for Canonical Operator Learning Across Parametric PDEs",
+    "Inverse Design of Quantum Control Sequences with Fourier Neural Operators",
     "Fourier Neural Operators Explained: A Practical Perspective",
     "Principled Approaches for Extending Neural Architectures to Function Spaces for Operator Learning",
     "A Library for Learning Neural Operators",
@@ -35,8 +42,6 @@ EXPECTED_PUBLICATION_TITLES = [
     "Practical Structured Riemannian Optimization with Momentum by using Generalized Normal Coordinates",
     "Simplifying Momentum-based Positive-definite Submanifold Optimization with Applications to Deep Learning",
     "Bistability, Bifurcations and Chaos in the Mackey–Glass Equation",
-    "Stable Singularity of the Euler Equations on R<sup>3</sup>",
-    "Stability Framework for the Singularity of the Euler Equations on R<sup>3</sup>",
 ]
 
 
@@ -100,9 +105,30 @@ def main():
         failures.append(f"Expected 31 research records, found {publication_count}")
 
     publications_source = (ROOT / "publications.html").read_text(encoding="utf-8")
-    for title in EXPECTED_PUBLICATION_TITLES:
-        if title not in publications_source:
-            failures.append(f"Missing audited publication: {title}")
+    publication_titles = re.findall(r"<h3>(.*?)</h3>", publications_source)
+    if publication_titles != EXPECTED_PUBLICATION_TITLES_IN_ORDER:
+        failures.append("Publication order no longer matches the summary order in script.js")
+
+    script_source = (ROOT / "script.js").read_text(encoding="utf-8")
+    summary_block = script_source.split("const abstractSummaries = [", 1)[1].split("\n  ];", 1)[0]
+    summaries = []
+    companion_parts = {}
+    for line in summary_block.splitlines():
+        stripped = line.strip()
+        if stripped.startswith(("before:", "title:", "after:")):
+            key, value = stripped.split(":", 1)
+            companion_parts[key] = ast.literal_eval(value.strip().rstrip(","))
+        elif line.startswith("    '"):
+            summaries.append(ast.literal_eval(stripped.rstrip(",")))
+    if companion_parts:
+        summaries.insert(2, companion_parts["before"] + companion_parts["title"] + companion_parts["after"])
+
+    if len(summaries) != publication_count:
+        failures.append(f"Expected {publication_count} publication summaries, found {len(summaries)}")
+    for index, summary in enumerate(summaries, start=1):
+        sentence_count = len(re.findall(r"[.!?](?=\s+[A-Z]|$)", summary))
+        if sentence_count not in {3, 4}:
+            failures.append(f"Publication summary {index} has {sentence_count} sentences, expected 3 or 4")
 
     if failures:
         print("Site checks failed:")
