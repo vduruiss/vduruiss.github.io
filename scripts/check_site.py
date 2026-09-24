@@ -12,7 +12,7 @@ HTML_FILES = sorted(ROOT.glob("*.html"))
 
 EXPECTED_PUBLICATION_TITLES_IN_ORDER = [
     "Symplectic Numerical Integration at the service of Accelerated Optimization and Structure-Preserving Dynamics Learning",
-    "Stable Singularity of the Euler Equations on R<sup>3</sup>",
+    "Self-Similar Singularity of the Euler Equations on R<sup>3</sup>",
     "Stability Framework for the Singularity of the Euler Equations on R<sup>3</sup>",
     "Equation Recast for Canonical Operator Learning Across Parametric PDEs",
     "Inverse Design of Quantum Control Sequences with Fourier Neural Operators",
