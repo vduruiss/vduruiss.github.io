@@ -16,6 +16,7 @@ EXPECTED_PUBLICATION_TITLES_IN_ORDER = [
     "Stability Framework for the Singularity of the Euler Equations on R<sup>3</sup>",
     "Equation Recast for Canonical Operator Learning Across Parametric PDEs",
     "Inverse Design of Quantum Control Sequences with Fourier Neural Operators",
+    "AI-Accelerated Gyrokinetic Predictions of Turbulent Transport for Stellarator Design Optimization and Experimental Planning",
     "Fourier Neural Operators Explained: A Practical Perspective",
     "Principled Approaches for Extending Neural Architectures to Function Spaces for Operator Learning",
     "A Library for Learning Neural Operators",
@@ -101,8 +102,8 @@ def main():
         if not (ROOT / required).exists():
             failures.append(f"Missing required file: {required}")
 
-    if publication_count != 31:
-        failures.append(f"Expected 31 research records, found {publication_count}")
+    if publication_count != 32:
+        failures.append(f"Expected 32 research records, found {publication_count}")
 
     publications_source = (ROOT / "publications.html").read_text(encoding="utf-8")
     publication_titles = re.findall(r"<h3>(.*?)</h3>", publications_source)
