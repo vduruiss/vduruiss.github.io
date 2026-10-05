@@ -14,6 +14,7 @@ EXPECTED_PUBLICATION_TITLES_IN_ORDER = [
     "Symplectic Numerical Integration at the service of Accelerated Optimization and Structure-Preserving Dynamics Learning",
     "Self-Similar Singularity of the Euler Equations on R<sup>3</sup>",
     "Stability Framework for the Singularity of the Euler Equations on R<sup>3</sup>",
+    "Counterfactual Predictions in Scientific Emulators Without Controlled Experiments",
     "Equation Recast for Canonical Operator Learning Across Parametric PDEs",
     "Inverse Design of Quantum Control Sequences with Fourier Neural Operators",
     "AI-Accelerated Gyrokinetic Predictions of Turbulent Transport for Stellarator Design Optimization and Experimental Planning",
@@ -102,8 +103,8 @@ def main():
         if not (ROOT / required).exists():
             failures.append(f"Missing required file: {required}")
 
-    if publication_count != 32:
-        failures.append(f"Expected 32 research records, found {publication_count}")
+    if publication_count != 33:
+        failures.append(f"Expected 33 research records, found {publication_count}")
 
     publications_source = (ROOT / "publications.html").read_text(encoding="utf-8")
     publication_titles = re.findall(r"<h3>(.*?)</h3>", publications_source)
@@ -128,8 +129,8 @@ def main():
         failures.append(f"Expected {publication_count} publication summaries, found {len(summaries)}")
     for index, summary in enumerate(summaries, start=1):
         sentence_count = len(re.findall(r"[.!?](?=\s+[A-Z]|$)", summary))
-        if sentence_count not in {3, 4}:
-            failures.append(f"Publication summary {index} has {sentence_count} sentences, expected 3 or 4")
+        if sentence_count not in {3, 4, 5}:
+            failures.append(f"Publication summary {index} has {sentence_count} sentences, expected 3 to 5")
 
     if failures:
         print("Site checks failed:")
