@@ -12,6 +12,9 @@ HTML_FILES = sorted(ROOT.glob("*.html"))
 
 EXPECTED_PUBLICATION_TITLES_IN_ORDER = [
     "Symplectic Numerical Integration at the service of Accelerated Optimization and Structure-Preserving Dynamics Learning",
+    "Fourier Neural Operators Explained: A Practical Perspective",
+    "Principled Approaches for Extending Neural Architectures to Function Spaces for Operator Learning",
+    "A Library for Learning Neural Operators",
     "Self-Similar Singularity of the Euler Equations on R<sup>3</sup>",
     "Stability Framework for the Singularity of the Euler Equations on R<sup>3</sup>",
     "Counterfactual Predictions in Scientific Emulators Without Controlled Experiments",
@@ -19,9 +22,7 @@ EXPECTED_PUBLICATION_TITLES_IN_ORDER = [
     "Inverse Design of Quantum Control Sequences with Fourier Neural Operators",
     "Learnable Splines for Unstructured Neural Operators",
     "AI-Accelerated Gyrokinetic Predictions of Turbulent Transport for Stellarator Design Optimization and Experimental Planning",
-    "Fourier Neural Operators Explained: A Practical Perspective",
-    "Principled Approaches for Extending Neural Architectures to Function Spaces for Operator Learning",
-    "A Library for Learning Neural Operators",
+    "Performance of Neural Operator Baselines on 'The Well' Dataset",
     "NOBLE - Neural Operator with Biologically-informed Latent Embeddings to Capture Experimental Variability in Biological Neuron Models",
     "Enabling Automatic Differentiation with Mollified Graph Neural Operators",
     "FC-PINO: High Precision Physics-Informed Neural Operators via Fourier Continuation",
@@ -104,8 +105,8 @@ def main():
         if not (ROOT / required).exists():
             failures.append(f"Missing required file: {required}")
 
-    if publication_count != 34:
-        failures.append(f"Expected 34 research records, found {publication_count}")
+    if publication_count != 35:
+        failures.append(f"Expected 35 research records, found {publication_count}")
 
     publications_source = (ROOT / "publications.html").read_text(encoding="utf-8")
     publication_titles = re.findall(r"<h3>(.*?)</h3>", publications_source)
@@ -124,7 +125,7 @@ def main():
         elif line.startswith("    '"):
             summaries.append(ast.literal_eval(stripped.rstrip(",")))
     if companion_parts:
-        summaries.insert(2, companion_parts["before"] + companion_parts["title"] + companion_parts["after"])
+        summaries.insert(publication_titles.index("Stability Framework for the Singularity of the Euler Equations on R<sup>3</sup>"), companion_parts["before"] + companion_parts["title"] + companion_parts["after"])
 
     if len(summaries) != publication_count:
         failures.append(f"Expected {publication_count} publication summaries, found {len(summaries)}")
