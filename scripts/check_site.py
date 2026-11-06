@@ -17,9 +17,11 @@ EXPECTED_PUBLICATION_TITLES_IN_ORDER = [
     "A Library for Learning Neural Operators",
     "Self-Similar Singularity of the Euler Equations on R<sup>3</sup>",
     "Stability Framework for the Singularity of the Euler Equations on R<sup>3</sup>",
+    "Capturing Membrane Dynamics and Spike Timing of Human Neurons at Scale using Neural Operators",
     "Counterfactual Predictions in Scientific Emulators Without Controlled Experiments",
-    "Equation Recast for Canonical Operator Learning Across Parametric PDEs",
+    "FNO-Based Inverse Co-Design of Semiconducting Quantum-Dot Devices",
     "Inverse Design of Quantum Control Sequences with Fourier Neural Operators",
+    "Equation Recast for Canonical Operator Learning Across Parametric PDEs",
     "Learnable Splines for Unstructured Neural Operators",
     "AI-Accelerated Gyrokinetic Predictions of Turbulent Transport for Stellarator Design Optimization and Experimental Planning",
     "Performance of Neural Operator Baselines on 'The Well' Dataset",
@@ -105,8 +107,8 @@ def main():
         if not (ROOT / required).exists():
             failures.append(f"Missing required file: {required}")
 
-    if publication_count != 35:
-        failures.append(f"Expected 35 research records, found {publication_count}")
+    if publication_count != 37:
+        failures.append(f"Expected 37 research records, found {publication_count}")
 
     publications_source = (ROOT / "publications.html").read_text(encoding="utf-8")
     publication_titles = re.findall(r"<h3>(.*?)</h3>", publications_source)
