@@ -18,6 +18,7 @@ EXPECTED_PUBLICATION_TITLES_IN_ORDER = [
     "Self-Similar Singularity of the Euler Equations on R<sup>3</sup>",
     "Stability Framework for the Singularity of the Euler Equations on R<sup>3</sup>",
     "Capturing Membrane Dynamics and Spike Timing of Human Neurons at Scale using Neural Operators",
+    "Coarse-to-Fine 3D MRI Reconstruction via Resolution-Agnostic Neural Operators",
     "Counterfactual Predictions in Scientific Emulators Without Controlled Experiments",
     "FNO-Based Inverse Co-Design of Semiconducting Quantum-Dot Devices",
     "Inverse Design of Quantum Control Sequences with Fourier Neural Operators",
@@ -107,8 +108,8 @@ def main():
         if not (ROOT / required).exists():
             failures.append(f"Missing required file: {required}")
 
-    if publication_count != 37:
-        failures.append(f"Expected 37 research records, found {publication_count}")
+    if publication_count != 38:
+        failures.append(f"Expected 38 research records, found {publication_count}")
 
     publications_source = (ROOT / "publications.html").read_text(encoding="utf-8")
     publication_titles = re.findall(r"<h3>(.*?)</h3>", publications_source)
